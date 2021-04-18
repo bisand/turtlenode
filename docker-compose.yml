@@ -13,3 +13,6 @@ services:
       - ${TTYD_BIND_PORT}:${TTYD_BIND_PORT}
     volumes:
       - turtlenode:/home/turtlecoin/
+
+  volumes:
+    turtlenode:
