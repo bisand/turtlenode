@@ -14,5 +14,5 @@ services:
     volumes:
       - turtlenode:/home/turtlecoin/
 
-  volumes:
-    turtlenode:
+volumes:
+  turtlenode:
