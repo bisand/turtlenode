@@ -40,6 +40,8 @@ FROM scratch as base
 
 COPY --from=builder /turtlecoin/ /
 
+FROM alpine:latest
+
 # set turtlecoin shell to zsh in order to run tmux as a non root user
 RUN addgroup -S turtlecoin && adduser -S turtlecoin -G turtlecoin -s /bin/zsh -h /home/turtlecoin && \
     apk add --no-cache 'su-exec>=0.2'
