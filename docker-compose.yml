@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  mosquitto:
+    image: bisand/turtlenode:latest
+    restart: always
+    container_name: turtlenode
+    env_file:
+      - '/usr/etc/turtlenode/variables.env'
+    volumes:
+      - turtlenode:/home/turtlecoin/
+
