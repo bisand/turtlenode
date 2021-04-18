@@ -35,8 +35,8 @@ if [[ "$1" = 'ttyd' ]]; then
             --add-priority-node ${ADD_PRIORITY_NODE} \
             --enable-blockexplorer ${ENABLE_BLOCKEXPLORER} \
             --enable-cors ${ENABLE_CORS} \
-            --fee-address ${FEE_ADDRESS} \
-            --fee-amount ${FEE_AMOUNT}
+            --fee-amount ${FEE_AMOUNT} \
+            --fee-address ${FEE_ADDRESS}
 
     if [[ "$DB_ENABLE_COMPRESSION" = true ]]; then
         set -- "$@" --db-enable-compression
