@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: turtlenode
     env_file:
-      - '/usr/etc/turtlenode/variables.env'
+      - /usr/etc/turtlenode/variables.env
     ports:
       - ${P2P_BIND_PORT}:${P2P_BIND_PORT}
       - ${RPC_BIND_PORT}:${RPC_BIND_PORT}
