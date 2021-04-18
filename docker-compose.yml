@@ -7,10 +7,9 @@ services:
     container_name: turtlenode
     env_file:
       - '/usr/etc/turtlenode/variables.env'
-    volumes:
-      - turtlenode:/home/turtlecoin/
     ports:
       - ${P2P_BIND_PORT}:${P2P_BIND_PORT}
       - ${RPC_BIND_PORT}:${RPC_BIND_PORT}
       - ${TTYD_BIND_PORT}:${TTYD_BIND_PORT}
-  
+    volumes:
+      - turtlenode:/home/turtlecoin/
