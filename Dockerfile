@@ -1,6 +1,6 @@
 FROM alpine as git
 
-ARG BRANCH=development
+ARG BRANCH=master
 ENV BRANCH=${BRANCH}
 
 ARG ENABLE_SSL=false
