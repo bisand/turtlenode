@@ -42,8 +42,7 @@ COPY --from=builder /turtlecoin/ /
 
 FROM alpine:latest
 
-# set turtlecoin shell to zsh in order to run tmux as a non root user
-RUN addgroup -S turtlecoin && adduser -S turtlecoin -G turtlecoin -s /bin/zsh -h /home/turtlecoin && \
+RUN addgroup -S turtlecoin && adduser -S turtlecoin -G turtlecoin -h /home/turtlecoin && \
     apk add --no-cache 'su-exec>=0.2'
 
 # Manually add a peer to the local peer list ONLY attempt connections to it. [ip:port]
@@ -146,45 +145,16 @@ ENV RPC_BIND_IP=${RPC_BIND_IP}
 ARG RPC_BIND_PORT=11898
 ENV RPC_BIND_PORT=${RPC_BIND_PORT}
 
-# TCP port for the RPC service
-ARG TTYD_BIND_PORT=7681
-ENV TTYD_BIND_PORT=${TTYD_BIND_PORT}
-
-# Web username
-ARG WEB_USERNAME
-ENV WEB_USERNAME=${WEB_USERNAME}
-
-# Web username
-ARG WEB_PASSWORD
-ENV WEB_PASSWORD=${WEB_PASSWORD}
-
 # copy binary from builder
 COPY --from=base /TurtleCoind /usr/local/bin
 
-# add library required to run binary, ttyd, tmux, and 
-# zsh (this is needed in order to run tmux from a non root user) and fix ownership
-RUN apk add --no-cache libucontext-dev ttyd zsh tmux curl
-
-#uncomment when the ttyd ssl bug is fixed
-#RUN apk add --no-cache openssl && \
-#    mkdir -p /ttyd/certs
-#
-#WORKDIR /ttyd/certs
-#
-# create a self signed ssl cert for secure ttyd
-#RUN openssl genrsa -out ca.key 4096 && \
-#    openssl req -new -x509 -days 365 -key ca.key -out ca.crt -subj "/C=TC/ST=TurtleCoin/L=TurtleCoin/O=TurtleCoin/OU=TurtleCoin/CN=localhost" && \
-#    openssl req -newkey rsa:2048 -nodes -keyout server.key -out server.csr -subj "/C=TC/ST=TurtleCoin/L=TurtleCoin/O=TurtleCoin/OU=TurtleCoin/CN=localhost" && \
-#    openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt && \
-#    openssl req -newkey rsa:2048 -nodes -keyout client.key -out client.csr -subj "/C=TC/ST=TurtleCoin/L=TurtleCoin/O=TurtleCoin/OU=TurtleCoin/CN=localhost" && \
-#    openssl x509 -req -days 365 -in client.csr -CA ca.crt -CAkey ca.key -set_serial 02 -out client.crt && \
-#    chown turtlecoin *
+# add library required to run binary and fix ownership
+RUN apk add --no-cache libucontext-dev curl htop
 
 VOLUME /home/turtlecoin
 WORKDIR /home/turtlecoin
 
 COPY ./docker-entrypoint.sh /usr/local/bin/
-COPY zshrc /home/turtlecoin/.zshrc
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
@@ -192,4 +162,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE ${RPC_BIND_PORT} ${P2P_BIND_PORT}
 
-CMD ["ttyd"]
+CMD ["TurtleCoind"]
