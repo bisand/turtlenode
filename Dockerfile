@@ -13,7 +13,7 @@ RUN apk add --no-cache --virtual git-dependency git && \
     mkdir /opt/turtlecoin/build && \
     apk del git-dependency
 
-FROM alpine as builder
+FROM alpine:3.15 as builder
 
 COPY --from=git /opt/turtlecoin /opt/turtlecoin
 
